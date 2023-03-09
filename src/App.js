@@ -9,6 +9,12 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <div>
+          <button className="btn btn-outline">Button</button>
+          <button className="btn btn-outline btn-primary">Button</button>
+          <button className="btn btn-outline btn-secondary">Button</button>
+          <button className="btn btn-outline btn-accent">Button</button>
+        </div>
         <a
           className="App-link"
           href="https://reactjs.org"
