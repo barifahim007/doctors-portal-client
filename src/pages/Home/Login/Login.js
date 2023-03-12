@@ -19,7 +19,7 @@ const Login = () => {
                     <div className="form-control w-full ">
                         <label className="label">
                             <span className="label-text">Email</span></label>
-                        <input type="text" {...register("email", {
+                        <input type="email" {...register("email", {
                             required: "Email Address is required"
                         })} placeholder="Email" className="input input-bordered w-full " />
                         {errors.email && <p className='text-warning'>{errors.email?.message}</p>}
