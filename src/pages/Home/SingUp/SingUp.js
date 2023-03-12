@@ -1,11 +1,41 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { authContext } from '../../../contexts/AuthProvider';
 
 const SingUp = () => {
+    // import context from AuthProvider;
+    const { createUser, updateUser } = useContext(authContext);
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
+    const [singupError, setSingupError] = useState('');
+    // navigate to private route
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/'
+
     const handleSingup = (data) => {
         console.log(data)
+        setSingupError('')
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user
+                console.log(user)
+                // use navigate button to redirect
+                navigate(from, { replace: true })
+                toast('user create successfully!')
+                const userInfo = {
+                    displayName: data.name
+                }
+                updateUser(userInfo)
+                    .then(() => { })
+                    .catch(err => console.log(err))
+            })
+            .catch(err => {
+                console.error(err)
+                setSingupError(err.message)
+            })
         reset()
     }
     return (
@@ -36,12 +66,18 @@ const SingUp = () => {
                         <label className="label"> <span className="label-text">Password</span></label>
                         <input type="password" {...register("password", {
                             required: "password is required",
-                            minLength: { value: 6, message: "your passowrd must be 6 or more charecters" }
+                            minLength: { value: 6, message: "your passowrd must be 6 or more charecters" },
+                            pattern: { value: /(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])/, message: "password shuld be stronger" }
                         })} placeholder="password" className="input input-bordered w-full " />
 
                         {errors.password && <p className='text-warning'>{errors.password?.message}</p>}
                     </div>
                     <input className='btn w-full bg-neutral text-xl my-2 text-primary rounded p-2' value="Sing up" type="submit" />
+                    <div>
+                        {
+                            singupError && <p>{singupError}</p>
+                        }
+                    </div>
                 </form>
                 <label className="label"> <span className="label-text">Already have an Account? <Link className='text-primary font-bold px-4' to="/login">please Login!</Link></span></label>
                 <div className="divider">OR</div>
