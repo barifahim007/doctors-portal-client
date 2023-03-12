@@ -5,7 +5,7 @@ const Navbar = () => {
     const menuItems = <React.Fragment>
         <Link to='/'> Home</Link>
         <Link to='/about'> About</Link>
-        <Link to='/appinment'> Appoinment</Link>
+        <Link to='/appoinment'> Appoinment</Link>
         <Link to='/reviwes'> Reviews</Link>
         <Link to='/contactus'> Contact Us</Link>
         <Link to='/login'> Login</Link>
